@@ -1,5 +1,5 @@
-# Battleship 
-Battleship game created with c++ and played on console.
+# Console Battleship 
+Battleship game created with c++.
 
 
 <img src="https://github.com/Stebis-dev/Battleship/blob/main/B0GzgZCX62.gif" align="center"
