@@ -1,13 +1,4 @@
 # Battleship 
 Battleship game created with c++ and played on console.
 
-```c++
- ____            _     _     _                _       _
-|  _ \          | |   | |   | |              | |     (_)
-| |_) |  __  _  | |_  | |_  | |   ___   ___  | |__    _   _ __
-|  _ <  /  _` | | __| | __| | |  / _ \ / __| | '_ \  | | | '_  \
-| |_) | | (_| | | |_  | |_  | |  |__ / \__ \ | | | | | | | |_) |
-|____ / \__,_ | \__ | \__ | |_|  \___| |___/ |_| |_| |_| | .__ /
-                                                         | |
-                                                         |_|
-```
+https://github.com/Stebis-dev/Battleship/blob/main/B0GzgZCX62.gif
