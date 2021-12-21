@@ -1,3 +1,2 @@
-# Battleship [![Battleship](https://github.com/Stebis-dev/Battleship#readme)]
-> A curated list of awesome READMEs
-Battleship game created with c++
+# Battleship (https://github.com/sindresorhus/awesome#readme)
+Battleship game created with c++ and played on console.
