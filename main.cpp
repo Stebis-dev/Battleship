@@ -3,9 +3,6 @@
 #include "json.hpp"
 #include "utility.cpp"
 
-#include <Windows.h>
-#include <cstdlib>
-
 using namespace std;
 
 int main()
