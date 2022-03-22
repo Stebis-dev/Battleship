@@ -37,7 +37,7 @@ public:
     }
 };
 
-string ResetColor()
+string RestorColor()
 {
     return "\x1b[0m";
 }
