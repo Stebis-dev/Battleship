@@ -4,7 +4,7 @@
 Simple Battleship game created with c++. 
 
 ## Main menu
-<img src="https://github.com/Stebis-dev/Battleship/blob/main/B0GzgZCX62.gif" align="center"
+<img src="https://github.com/Stebis-dev/Battleship/blob/main-v.1/B0GzgZCX62.gif?raw=true" align="center"
      alt="Game main screen" width="711" height="400">
 ## Gameplay features
 
