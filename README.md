@@ -11,12 +11,12 @@ Simple Battleship game created with c++.
 - Place your ships with arrow keys
 - Rotate your ships for better position
 
-<img src="https://github.com/Stebis-dev/Battleship/blob/main/M3DPHC8cAt.gif" align="center"
+<img src="https://github.com/Stebis-dev/Battleship/blob/main-v.1/M3DPHC8cAt.gif?raw=true" align="center"
      alt="Placing ship" width="711" height="400">
 
 - Shoot at enemy ships with arrow keys
 
-<img src="https://github.com/Stebis-dev/Battleship/blob/main/IIdvtjAxOX.gif" align="center"
+<img src="https://github.com/Stebis-dev/Battleship/blob/main/IIdvtjAxOX.gif?raw=true" align="center"
      alt="Shooting" width="711" height="400">
 
 ## Controls
