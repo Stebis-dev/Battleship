@@ -16,7 +16,7 @@ Simple Battleship game created with c++.
 
 - Shoot at enemy ships with arrow keys
 
-<img src="https://github.com/Stebis-dev/Battleship/blob/main/IIdvtjAxOX.gif?raw=true" align="center"
+<img src="https://github.com/Stebis-dev/Battleship/blob/main-v.1/IIdvtjAxOX.gif?raw=true" align="center"
      alt="Shooting" width="711" height="400">
 
 ## Controls
