@@ -1,4 +1,7 @@
-**BattleShip**
+**BattleShip v.2**
+
+v.1 was created using struct and windows.h for colorfull efects
+v.2 is being developed using OOP and ANSI for colorfull efects . . .
 
 json.hpp from:
 
