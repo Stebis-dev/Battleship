@@ -67,7 +67,7 @@ void GetConfigData(json &j)
         ofstream dataToFile("config.json");
         j = {
             {"Map", {{"x", 10}, {"y", 10}}},
-            {"Colors", {{"Enemy", {{"RGB", {255, 17, 0}}, {"HEX", "#ff1100"}}}, {"User", {{"RGB", {3, 252, 61}}, {"HEX", "#03fc3d"}}}}}
+            {"Colors", {{"Enemy", {{"HEX", "#ff1100"}}}, {"User", {{"HEX", "#03fc3d"}}}}}
 
         };
 
