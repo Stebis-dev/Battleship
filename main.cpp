@@ -209,9 +209,12 @@ public:
         y = b;
         allocatingMemory();
     }
-    void randPlaceShips(Ship AI[5])
+    void randPlace(Ship AI[5])
     {
         string shipType[6] = {"Carrier", "Battleship", "Cruiser", "Submarine", "Destroyer"};
+        for (int i = 0; i < y; ++i)
+            for (int ii = 0; ii < x; ++ii)
+                visualMap[i][ii] = 0;
 
         for (int i = 0; i < 5; i++)
         {
@@ -233,6 +236,14 @@ public:
                     break;
             }
         }
+        if (false)
+        {
+            for (int i = 0; i < y; ++i)
+                for (int ii = 0; ii < x; ++ii)
+                {
+                    visualMap[i][ii] = 250;
+                }
+        }
         return;
     }
 };
@@ -245,7 +256,7 @@ int main()
     Map user(10, 10);
     MistyMap enemy(10, 10);
 
-    enemy.randPlaceShips(enemyShips);
+    enemy.randPlace(enemyShips);
 
     userShips[0].SetData("Carrier");
     userShips[1].SetData("Battleship");
@@ -254,11 +265,12 @@ int main()
     // sending pointer so that would send a whole class but just small value to a functuon. . ..  IDK if it affected performence
     user.PlaceShip(&userShips[0], make_pair(2, 2), true);
     user.PlaceShip(&userShips[1], make_pair(2, 3), true);
-    user.PlaceShip(&userShips[2], make_pair(5, 5), false);
+    user.PlaceShip(&userShips[2], make_pair(8, 10), true);
 
     cout << enemy.DisplayMap() << '\n';
 
     cout << user.DisplayMap();
+
     delete[] userShips, enemyShips;
     return 0;
 }
