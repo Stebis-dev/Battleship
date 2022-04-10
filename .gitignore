@@ -1,4 +1,5 @@
 *.exe
 *.json
-test.cpp
+*.INI
+/test
 .vscode/
