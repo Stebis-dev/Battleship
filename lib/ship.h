@@ -19,8 +19,8 @@ public:
 
     ~Ship();
 
-    bool IsShipPlaced();
-    void ShipPlaced();
+    bool IsShipPlacedOnMap();
+    void ShipPlacedOnMap();
 
     int length();
 

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <time.h>
 
-bool toBoolean(std::string str)
+bool toBoolean(const std::string str)
 {
     if (str == "True" || str == "TRUE" || str == "true")
         return true;
@@ -16,7 +16,7 @@ Map::Map(mINI::INIStructure ini)
 {
     x = stoi(ini["Map"]["x"]);
     y = stoi(ini["Map"]["y"]);
-    isSpace = toBoolean(ini["Map"]["Space"]);
+    isSpaceBetweenShips = toBoolean(ini["Map"]["Space"]);
     allocatingMemory();
 }
 Map::Map() {}
@@ -57,78 +57,78 @@ void Map::allocatingMemory()
             visualMap[i][ii] = "·";
         }
 }
-int Map::PlaceShip(Ship *a, std::pair<int, int> possition, bool vertical)
+int Map::PlaceShip(Ship *a, const std::pair<int, int> possition, const bool vertical)
 {
-    if (a->IsShipPlaced())
+    if (a->IsShipPlacedOnMap())
         return -2;
 
+    // Alocates memory to temporary map
     int **tempInfoMap = new int *[y + 2];
     for (int i = 0; i < y + 2; i++)
         tempInfoMap[i] = new int[x + 2];
 
+    // Set temporary map to zero value
     for (int i = 0; i < y + 2; i++)
         for (int ii = 0; ii < x + 2; ii++)
             tempInfoMap[i][ii] = 0;
 
+    // Information copy of main map
     for (int i = 0; i < y; i++)
-    {
         for (int ii = 0; ii < x; ii++)
-        {
             tempInfoMap[i + 1][ii + 1] = infoMap[i][ii];
-            // std::cout << tempInfoMap[i][ii] << " ";
-        }
-        // std::cout << "\n";
-    }
 
-    int posX = possition.first;
-    int posY = possition.second;
+    int xPos = possition.first;
+    int yPos = possition.second;
 
+    // Checks if ship can be placed on a map
     for (int i = 0; i < a->length(); i++)
     {
         if (vertical)
         {
-            if (tempInfoMap[posY + i][posX] != 0)
+            if (tempInfoMap[yPos + i][xPos] != 0)
                 return -1;
         }
         else
         {
-            if (tempInfoMap[posY][posX + i] != 0)
+            if (tempInfoMap[yPos][xPos + i] != 0)
                 return -1;
         }
     }
-
-    for (int ii = 0; ii < 3; ii++)
+    // If there is space between ships, than the space is filled to be ingored for next ship placement
+    if (isSpaceBetweenShips)
     {
-        for (int i = 0; i < a->length() + 2; i++)
-        {
-            if (vertical)
+        for (int ii = 0; ii < 3; ii++)
+            for (int i = 0; i < a->length() + 2; i++)
             {
-                if (tempInfoMap[posY + i - 1][posX + ii - 1] == 0)
-                    tempInfoMap[posY + i - 1][posX + ii - 1] = 1;
+                if (vertical)
+                {
+                    if (tempInfoMap[yPos + i - 1][xPos + ii - 1] == 0)
+                        tempInfoMap[yPos + i - 1][xPos + ii - 1] = 1;
+                }
+                else
+                {
+                    if (tempInfoMap[yPos + ii - 1][xPos + i - 1] == 0)
+                        tempInfoMap[yPos + ii - 1][xPos + i - 1] = 1;
+                }
             }
-            else
-            {
-                if (tempInfoMap[posY + ii - 1][posX + i - 1] == 0)
-                    tempInfoMap[posY + ii - 1][posX + i - 1] = 1;
-            }
-        }
     }
-    posY--;
-    posX--;
 
+    yPos--;
+    xPos--;
+    // Ship placement on the maps
     for (int i = 0; i < a->length(); i++)
     {
         if (vertical)
         {
-            tempInfoMap[posY + i + 1][posX + 1] = a->length();
-            infoMap[posY + i][posX] = a->length();
-            visualMap[posY + i][posX] = a->GetVLayout(i);
+            tempInfoMap[yPos + i + 1][xPos + 1] = a->length();
+            infoMap[yPos + i][xPos] = a->length();
+            visualMap[yPos + i][xPos] = a->GetVLayout(i);
         }
         else
         {
-            tempInfoMap[posY + 1][posX + i + 1] = a->length();
-            infoMap[posY][posX + i] = a->length();
-            visualMap[posY][posX + i] = a->GetHLayout(i);
+            tempInfoMap[yPos + 1][xPos + i + 1] = a->length();
+            infoMap[yPos][xPos + i] = a->length();
+            visualMap[yPos][xPos + i] = a->GetHLayout(i);
         }
     }
 
@@ -136,46 +136,39 @@ int Map::PlaceShip(Ship *a, std::pair<int, int> possition, bool vertical)
         for (int ii = 0; ii < x; ii++)
             infoMap[i][ii] = tempInfoMap[i + 1][ii + 1];
 
-    // for (int i = 0; i < y + 2; i++)
-    // {
-    //     for (int ii = 0; ii < x + 2; ii++)
-    //     {
-    //         std::cout << tempInfoMap[i][ii] << " ";
-    //     }
-    //     std::cout << "\n";
-    // }
-    a->ShipPlaced();
+    a->ShipPlacedOnMap();
+
     for (int i = 0; i < y + 2; i++)
         delete[] tempInfoMap[i];
-
     delete[] tempInfoMap;
 
     return 0;
 }
-void Map::PlaceRandShips(Ship AI[5])
+void Map::PlaceRandShips(Ship *AI)
 {
     std::string shipType[6] = {"Carrier", "Battleship", "Cruiser", "Submarine", "Destroyer"};
 
-    int c, a, b;
+    int c, xPos, yPos;
     for (int i = 0; i < 5; i++)
     {
-        AI[i].SetData(shipType[i]);
+        AI->SetData(shipType[i]);
         while (true)
         {
             c = rand() % 2;
             if (c)
             {
-                a = rand() % x + 1;
-                b = rand() % (y - AI[i].length() + 1) + 1;
+                xPos = rand() % x + 1;
+                yPos = rand() % (y - AI->length() + 1) + 1;
             }
             else
             {
-                b = rand() % y + 1;
-                a = rand() % (x - AI[i].length() + 1) + 1;
+                yPos = rand() % y + 1;
+                xPos = rand() % (x - AI->length() + 1) + 1;
             }
-            if (PlaceShip(&AI[i], std::make_pair(a, b), c) == 0)
+            if (PlaceShip(AI, std::make_pair(xPos, yPos), c) == 0)
                 break;
         }
+        AI++;
     }
     return;
 }

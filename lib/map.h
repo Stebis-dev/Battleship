@@ -15,7 +15,7 @@ protected:
     int **infoMap;
     std::string **visualMap;
 
-    bool isSpace;
+    bool isSpaceBetweenShips;
 
 public:
     Map(mINI::INIStructure ini);
@@ -23,8 +23,8 @@ public:
     ~Map();
     void allocatingMemory();
 
-    int PlaceShip(Ship *a, std::pair<int, int> possition, bool vertical);
-    void PlaceRandShips(Ship AI[5]);
+    int PlaceShip(Ship *a, const std::pair<int, int> possition, const bool vertical);
+    void PlaceRandShips(Ship *AI);
 
     std::string DisplayMap();
 };

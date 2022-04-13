@@ -11,12 +11,12 @@ Ship::Ship() {}
 
 Ship::~Ship() {}
 
-bool Ship::IsShipPlaced()
+bool Ship::IsShipPlacedOnMap()
 {
     return placed;
 }
 
-void Ship::ShipPlaced()
+void Ship::ShipPlacedOnMap()
 {
     placed = true;
 }
