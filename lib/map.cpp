@@ -2,6 +2,7 @@
 #include "ship.h"
 #include <string>
 #include <iostream>
+#include <time.h>
 
 bool toBoolean(std::string str)
 {
@@ -81,7 +82,6 @@ int Map::PlaceShip(Ship *a, std::pair<int, int> possition, bool vertical)
 
     int posX = possition.first;
     int posY = possition.second;
-    // std::cout << "????? \n";
 
     for (int i = 0; i < a->length(); i++)
     {
@@ -104,12 +104,12 @@ int Map::PlaceShip(Ship *a, std::pair<int, int> possition, bool vertical)
             if (vertical)
             {
                 if (tempInfoMap[posY + i - 1][posX + ii - 1] == 0)
-                    tempInfoMap[posY + i - 1][posX + ii - 1] = -10;
+                    tempInfoMap[posY + i - 1][posX + ii - 1] = 1;
             }
             else
             {
                 if (tempInfoMap[posY + ii - 1][posX + i - 1] == 0)
-                    tempInfoMap[posY + ii - 1][posX + i - 1] = -10;
+                    tempInfoMap[posY + ii - 1][posX + i - 1] = 1;
             }
         }
     }
@@ -156,23 +156,24 @@ void Map::PlaceRandShips(Ship AI[5])
 {
     std::string shipType[6] = {"Carrier", "Battleship", "Cruiser", "Submarine", "Destroyer"};
 
+    int c, a, b;
     for (int i = 0; i < 5; i++)
     {
         AI[i].SetData(shipType[i]);
         while (true)
         {
-            int c = rand() % 2, a, b;
+            c = rand() % 2;
             if (c)
             {
-                a = rand() % (x - AI[i].length()) + 1;
-                b = rand() % y + 1;
+                a = rand() % x + 1;
+                b = rand() % (y - AI[i].length() + 1) + 1;
             }
             else
             {
-                a = rand() % x + 1;
-                b = rand() % (y - AI[i].length()) + 1;
+                b = rand() % y + 1;
+                a = rand() % (x - AI[i].length() + 1) + 1;
             }
-            if (PlaceShip(&AI[i], std::make_pair(b, a), c) == 0)
+            if (PlaceShip(&AI[i], std::make_pair(a, b), c) == 0)
                 break;
         }
     }
