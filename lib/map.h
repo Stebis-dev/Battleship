@@ -15,7 +15,7 @@ protected:
     int **infoMap;
     std::string **visualMap;
 
-    bool Space;
+    bool isSpace;
 
 public:
     Map(mINI::INIStructure ini);

@@ -1,12 +1,21 @@
 #include "map.h"
 #include "ship.h"
 #include <string>
+#include <iostream>
+
+bool toBoolean(std::string str)
+{
+    if (str == "True" || str == "TRUE" || str == "true")
+        return true;
+    else
+        return false;
+}
 
 Map::Map(mINI::INIStructure ini)
 {
     x = stoi(ini["Map"]["x"]);
     y = stoi(ini["Map"]["y"]);
-    Space = toBoolean(ini["Map"]["Space"]);
+    isSpace = toBoolean(ini["Map"]["Space"]);
     allocatingMemory();
 }
 Map::Map() {}
@@ -52,36 +61,95 @@ int Map::PlaceShip(Ship *a, std::pair<int, int> possition, bool vertical)
     if (a->IsShipPlaced())
         return -2;
 
-    possition.first--;
-    possition.second--;
-    for (int i = 0; i < a->length(); i++)
+    int **tempInfoMap = new int *[y + 2];
+    for (int i = 0; i < y + 2; i++)
+        tempInfoMap[i] = new int[x + 2];
+
+    for (int i = 0; i < y + 2; i++)
+        for (int ii = 0; ii < x + 2; ii++)
+            tempInfoMap[i][ii] = 0;
+
+    for (int i = 0; i < y; i++)
     {
-        if (vertical)
+        for (int ii = 0; ii < x; ii++)
         {
-            if (infoMap[possition.first + i][possition.second] != 0 || possition.first + i >= y)
-                return -1;
+            tempInfoMap[i + 1][ii + 1] = infoMap[i][ii];
+            // std::cout << tempInfoMap[i][ii] << " ";
         }
-        else
-        {
-            if (infoMap[possition.first][possition.second + i] != 0 || possition.second + i >= x)
-                return -1;
-        }
+        // std::cout << "\n";
     }
+
+    int posX = possition.first;
+    int posY = possition.second;
+    // std::cout << "????? \n";
 
     for (int i = 0; i < a->length(); i++)
     {
         if (vertical)
         {
-            infoMap[possition.first + i][possition.second] = a->length();
-            visualMap[possition.first + i][possition.second] = a->GetVLayout(i);
+            if (tempInfoMap[posY + i][posX] != 0)
+                return -1;
         }
         else
         {
-            infoMap[possition.first][possition.second + i] = a->length();
-            visualMap[possition.first][possition.second + i] = a->GetHLayout(i);
+            if (tempInfoMap[posY][posX + i] != 0)
+                return -1;
         }
     }
+
+    for (int ii = 0; ii < 3; ii++)
+    {
+        for (int i = 0; i < a->length() + 2; i++)
+        {
+            if (vertical)
+            {
+                if (tempInfoMap[posY + i - 1][posX + ii - 1] == 0)
+                    tempInfoMap[posY + i - 1][posX + ii - 1] = -10;
+            }
+            else
+            {
+                if (tempInfoMap[posY + ii - 1][posX + i - 1] == 0)
+                    tempInfoMap[posY + ii - 1][posX + i - 1] = -10;
+            }
+        }
+    }
+    posY--;
+    posX--;
+
+    for (int i = 0; i < a->length(); i++)
+    {
+        if (vertical)
+        {
+            tempInfoMap[posY + i + 1][posX + 1] = a->length();
+            infoMap[posY + i][posX] = a->length();
+            visualMap[posY + i][posX] = a->GetVLayout(i);
+        }
+        else
+        {
+            tempInfoMap[posY + 1][posX + i + 1] = a->length();
+            infoMap[posY][posX + i] = a->length();
+            visualMap[posY][posX + i] = a->GetHLayout(i);
+        }
+    }
+
+    for (int i = 0; i < y; i++)
+        for (int ii = 0; ii < x; ii++)
+            infoMap[i][ii] = tempInfoMap[i + 1][ii + 1];
+
+    // for (int i = 0; i < y + 2; i++)
+    // {
+    //     for (int ii = 0; ii < x + 2; ii++)
+    //     {
+    //         std::cout << tempInfoMap[i][ii] << " ";
+    //     }
+    //     std::cout << "\n";
+    // }
     a->ShipPlaced();
+    for (int i = 0; i < y + 2; i++)
+        delete[] tempInfoMap[i];
+
+    delete[] tempInfoMap;
+
     return 0;
 }
 void Map::PlaceRandShips(Ship AI[5])
@@ -104,7 +172,7 @@ void Map::PlaceRandShips(Ship AI[5])
                 a = rand() % x + 1;
                 b = rand() % (y - AI[i].length()) + 1;
             }
-            if (PlaceShip(&AI[i], std::make_pair(a, b), c) == 0)
+            if (PlaceShip(&AI[i], std::make_pair(b, a), c) == 0)
                 break;
         }
     }
@@ -125,20 +193,12 @@ std::string Map::DisplayMap()
             else
             {
                 savedMap += visualMap[i][ii];
+                // savedMap += std::to_string(infoMap[i][ii]);
             }
-            //  savedMap += to_string(infoMap[i][ii]);
             // cout << visualMap[i][ii];
             savedMap += " ";
         }
         savedMap += "\n";
     }
     return savedMap;
-}
-
-bool toBoolean(std::string str)
-{
-    if (str == "True" || str == "TRUE" || str == "true")
-        return true;
-    else
-        return false;
 }
