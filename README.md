@@ -1,14 +1,8 @@
 **BattleShip v.2**
 
-v.1 was created using struct and windows.h for colorfull efects (and is very very glitchy)  
+v.1 was created using struct and windows.h for colorfull efects (and is very very glitchy)
 
 v.2 is being developed using OOP
-
-json.hpp from:
-
-*https://json.nlohmann.me*
-
----
 
 Color text method:
 
