@@ -18,13 +18,13 @@ protected:
     bool isSpaceBetweenShips;
 
 public:
-    Map(mINI::INIStructure ini);
+    Map(mINI::INIStructure *ini);
     Map();
     ~Map();
     void allocatingMemory();
 
     int PlaceShip(Ship *a, const std::pair<int, int> possition, const bool vertical);
-    void PlaceRandShips(Ship *AI);
+    void PlaceRandShips(mINI::INIStructure *ini, Ship *AI);
 
     std::string DisplayMap();
 };

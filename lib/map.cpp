@@ -1,8 +1,4 @@
 #include "map.h"
-#include "ship.h"
-#include <string>
-#include <iostream>
-#include <time.h>
 
 bool toBoolean(const std::string str)
 {
@@ -12,11 +8,11 @@ bool toBoolean(const std::string str)
         return false;
 }
 
-Map::Map(mINI::INIStructure ini)
+Map::Map(mINI::INIStructure *ini)
 {
-    x = stoi(ini["Map"]["x"]);
-    y = stoi(ini["Map"]["y"]);
-    isSpaceBetweenShips = toBoolean(ini["Map"]["Space"]);
+    x = stoi((*ini)["Map"]["x"]);
+    y = stoi((*ini)["Map"]["y"]);
+    isSpaceBetweenShips = toBoolean((*ini)["Map"]["Space"]);
     allocatingMemory();
 }
 Map::Map() {}
@@ -144,14 +140,12 @@ int Map::PlaceShip(Ship *a, const std::pair<int, int> possition, const bool vert
 
     return 0;
 }
-void Map::PlaceRandShips(Ship *AI)
+void Map::PlaceRandShips(mINI::INIStructure *ini, Ship *AI)
 {
-    std::string shipType[6] = {"Carrier", "Battleship", "Cruiser", "Submarine", "Destroyer"};
-
-    int c, xPos, yPos;
-    for (int i = 0; i < 5; i++)
+    int c, xPos, yPos, shipCount = stoi((*ini)["SHIP_INFO"]["ShipCount"]);
+    for (int i = 1; i <= shipCount; i++)
     {
-        AI->SetData(shipType[i]);
+        AI->SetData(ini, i);
         while (true)
         {
             c = rand() % 2;

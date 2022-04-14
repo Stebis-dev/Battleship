@@ -6,6 +6,9 @@
 #include "lib/map.h"
 #include "lib/ini.h"
 
+#define VERTICAL true
+#define HORIZONTAL false
+
 using namespace std;
 
 int main()
@@ -13,24 +16,24 @@ int main()
     mINI::INIFile file("config.INI");
     mINI::INIStructure ini;
     file.read(ini);
+
     //
 
-    const bool VERTICAL = true, HORIZONTAL = false;
     srand(time(0));
     system("chcp 65001");
-
     Ship *userShips = new Ship[5];
     Ship *enemyShips = new Ship[5];
-    Map user(ini), enemy(ini);
-    enemy.PlaceRandShips(enemyShips);
+    Map user(&ini), enemy(&ini);
 
-    userShips[0].SetData("Carrier");
-    userShips[1].SetData("Battleship");
-    userShips[2].SetData("Submarine");
+    enemy.PlaceRandShips(&ini, enemyShips);
 
-    // sending pointer so that would send a whole class but just small value to a functuon. . ..  IDK if it affected performence
-    user.PlaceShip(&userShips[0], make_pair(1, 1), VERTICAL);
-    user.PlaceShip(&userShips[1], make_pair(3, 1), VERTICAL);
+    userShips[0].SetData(&ini, 1);
+    userShips[1].SetData(&ini, 2);
+    userShips[2].SetData(&ini, 3);
+
+    // sending  pointer so that would send a whole class but just small value to a functuon. . ..  IDK if it affected performence
+    user.PlaceShip(&userShips[0], make_pair(1, 1), HORIZONTAL);
+    user.PlaceShip(&userShips[1], make_pair(3, 3), VERTICAL);
     user.PlaceShip(&userShips[2], make_pair(8, 7), HORIZONTAL);
 
     cout << enemy.DisplayMap() + "\n\n" + user.DisplayMap() << endl;
