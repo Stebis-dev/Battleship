@@ -2,9 +2,7 @@
 #include <fstream>
 #include <string>
 #include <time.h>
-#include "lib/ship.h"
-#include "lib/map.h"
-#include "lib/ini.h"
+#include "lib/utilityAddOns.h"
 
 #define VERTICAL true
 #define HORIZONTAL false
@@ -21,9 +19,13 @@ int main()
 
     srand(time(0));
     system("chcp 65001");
-    Ship *userShips = new Ship[5];
-    Ship *enemyShips = new Ship[5];
-    Map user(&ini), enemy(&ini);
+    system("cls");
+
+    Ship *userShips = new Ship[stoi(ini["SHIP_INFO"]["ShipCount"])];
+    Ship *enemyShips = new Ship[stoi(ini["SHIP_INFO"]["ShipCount"])];
+    Map user(&ini);
+    Enemy enemy(&ini);
+    enemy = &ini;
 
     enemy.PlaceRandShips(&ini, enemyShips);
 
@@ -32,6 +34,12 @@ int main()
     userShips[2].SetData(&ini, 3);
 
     // sending  pointer so that would send a whole class but just small value to a functuon. . ..  IDK if it affected performence
+
+    // while -> until all ships are placed
+
+    // placing ships with a keyboard and by pressing keys, not typing
+    // responsive map, (shows where you are in a mep (highlites a block))
+
     user.PlaceShip(&userShips[0], make_pair(1, 1), HORIZONTAL);
     user.PlaceShip(&userShips[1], make_pair(3, 3), VERTICAL);
     user.PlaceShip(&userShips[2], make_pair(8, 7), HORIZONTAL);

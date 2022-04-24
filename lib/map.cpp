@@ -1,17 +1,11 @@
 #include "map.h"
-
-bool toBoolean(const std::string str)
-{
-    if (str == "True" || str == "TRUE" || str == "true")
-        return true;
-    else
-        return false;
-}
+#include "utilityAddOns.h"
 
 Map::Map(mINI::INIStructure *ini)
 {
     x = stoi((*ini)["Map"]["x"]);
     y = stoi((*ini)["Map"]["y"]);
+    background = (*ini)["Map"]["Background"];
     isSpaceBetweenShips = toBoolean((*ini)["Map"]["Space"]);
     allocatingMemory();
 }
@@ -50,7 +44,7 @@ void Map::allocatingMemory()
         {
             hitMap[i][ii] = false;
             infoMap[i][ii] = 0;
-            visualMap[i][ii] = "·";
+            visualMap[i][ii] = background;
         }
 }
 int Map::PlaceShip(Ship *a, const std::pair<int, int> possition, const bool vertical)
@@ -174,16 +168,7 @@ std::string Map::DisplayMap()
     {
         for (int ii = 0; ii < x; ++ii)
         {
-            if (infoMap[i][ii] == -5)
-            {
-                savedMap += "-";
-            }
-            else
-            {
-                savedMap += visualMap[i][ii];
-                // savedMap += std::to_string(infoMap[i][ii]);
-            }
-            // cout << visualMap[i][ii];
+            savedMap += visualMap[i][ii];
             savedMap += " ";
         }
         savedMap += "\n";

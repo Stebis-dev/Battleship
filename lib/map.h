@@ -14,6 +14,7 @@ protected:
     bool **hitMap;
     int **infoMap;
     std::string **visualMap;
+    std::string background;
 
     bool isSpaceBetweenShips;
 
