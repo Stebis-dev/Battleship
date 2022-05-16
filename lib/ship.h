@@ -5,6 +5,13 @@
 #include <string>
 #include "ini.h"
 
+struct coordinates
+{
+    int x;
+    int y;
+    bool vertical;
+};
+
 class Ship
 {
 private:
@@ -13,6 +20,9 @@ private:
     std::string *hLayout;
     std::string *vLayout;
     bool placed;
+    int damage;
+    bool destroyed;
+    coordinates c;
 
 public:
     Ship(mINI::INIStructure *ini, int index);
@@ -21,7 +31,9 @@ public:
     ~Ship();
 
     bool IsShipPlacedOnMap();
-    void ShipPlacedOnMap();
+    void ShipPlacedOnMap(int x, int y, bool vertical);
+
+    bool IsDestroyed();
 
     int length();
 
@@ -30,6 +42,8 @@ public:
 
     std::string GetHLayout(int index);
     std::string GetVLayout(int index);
+
+    void operator++();
 };
 
 #endif

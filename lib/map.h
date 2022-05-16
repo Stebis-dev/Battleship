@@ -8,7 +8,6 @@
 
 class Map
 {
-
 protected:
     int x, y;
     bool **hitMap;
@@ -16,7 +15,13 @@ protected:
     std::string **visualMap;
     std::string background;
 
+    int shipCount;
     bool isSpaceBetweenShips;
+
+    std::string userShipColor;
+    std::string enemyShipColor;
+    std::string seaColor;
+    std::string selectColor;
 
 public:
     Map(mINI::INIStructure *ini);
@@ -24,10 +29,17 @@ public:
     ~Map();
     void allocatingMemory();
 
+    int GetShipCount();
+    int GetMapX();
+    int GetMapY();
+
     int PlaceShip(Ship *a, const std::pair<int, int> possition, const bool vertical);
     void PlaceRandShips(mINI::INIStructure *ini, Ship *AI);
 
     std::string DisplayMap();
+    std::string DisplayMap(int posX, int posY, bool vertical, int length);
+
+    void updateMap(int **area);
 };
 
 #endif

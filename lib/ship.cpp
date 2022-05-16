@@ -16,9 +16,14 @@ bool Ship::IsShipPlacedOnMap()
     return placed;
 }
 
-void Ship::ShipPlacedOnMap()
+void Ship::ShipPlacedOnMap(int x, int y, bool vertical)
 {
+    // starts count from 0
+    c.x = x;
+    c.y = y;
+    c.vertical = vertical;
     placed = true;
+    // std::cout << x << " " << y << " " << vertical << " " << shipLength << std::endl;
 }
 int Ship::length()
 {
@@ -27,12 +32,14 @@ int Ship::length()
 
 void Ship::SetData(mINI::INIStructure *ini, int index)
 {
-    std::string test = std::to_string(index);
-    shipLength = stoi((*ini)["SHIP_INFO"][(*ini)["SHIP_INFO"][test]]);
+    std::string indexString = std::to_string(index);
+    shipLength = stoi((*ini)["SHIP_INFO"][(*ini)["SHIP_INFO"][indexString]]);
     placed = false;
     vLayout = new std::string[shipLength];
     hLayout = new std::string[shipLength];
     SetVisuals(ini);
+    damage = 0;
+    destroyed = false;
 }
 
 void Ship::SetVisuals(mINI::INIStructure *ini)
@@ -55,4 +62,15 @@ std::string Ship::GetHLayout(int index)
 std::string Ship::GetVLayout(int index)
 {
     return vLayout[index];
+}
+void Ship::operator++()
+{
+    damage++;
+    if (damage == shipLength)
+        destroyed = true;
+    return;
+}
+bool Ship::IsDestroyed()
+{
+    return destroyed;
 }

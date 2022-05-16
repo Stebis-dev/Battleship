@@ -37,6 +37,12 @@ std::string Enemy::DisplayMap()
         {
             if (visible)
             {
+                if (infoMap[i][ii] > 1)
+                    savedMap += enemyShipColor;
+                else
+                {
+                    savedMap += seaColor;
+                }
                 savedMap += visualMap[i][ii];
             }
             else if (infoMap[i][ii] < 0)
@@ -45,10 +51,46 @@ std::string Enemy::DisplayMap()
             }
             else
             {
+                savedMap += seaColor;
                 savedMap += background;
             }
-
-            savedMap += " ";
+            savedMap += " \x1b[0m";
+        }
+        savedMap += "\n";
+    }
+    return savedMap;
+}
+std::string Enemy::DisplayMap(int posX, int posY, int **affectedArea)
+{
+    std::string savedMap = "";
+    savedMap += "";
+    for (int i = 0; i < this->y; ++i)
+    {
+        for (int ii = 0; ii < this->x; ++ii)
+        {
+            if (affectedArea[i][ii] == 1)
+            {
+                savedMap += selectColor;
+                if (hitMap[i][ii] || (visible && infoMap[i][ii] > 1))
+                {
+                    savedMap += visualMap[i][ii];
+                }
+                else
+                {
+                    savedMap += background;
+                }
+            }
+            else if (hitMap[i][ii] || (visible && infoMap[i][ii] > 1))
+            {
+                savedMap += enemyShipColor;
+                savedMap += visualMap[i][ii];
+            }
+            else
+            {
+                savedMap += seaColor;
+                savedMap += background;
+            }
+            savedMap += " \x1b[0m";
         }
         savedMap += "\n";
     }

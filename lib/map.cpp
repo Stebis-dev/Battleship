@@ -7,6 +7,16 @@ Map::Map(mINI::INIStructure *ini)
     y = stoi((*ini)["Map"]["y"]);
     background = (*ini)["Map"]["Background"];
     isSpaceBetweenShips = toBoolean((*ini)["Map"]["Space"]);
+
+    std::string cFront = "\x1b[";
+    std::string cEnd = "m";
+
+    userShipColor = cFront + (*ini)["SHIP_INFO"]["UserShipColor"] + cEnd;
+    enemyShipColor = cFront + (*ini)["SHIP_INFO"]["EnemyShipColor"] + cEnd;
+    seaColor = cFront + (*ini)["SHIP_INFO"]["SeaColor"] + cEnd;
+    selectColor = cFront + (*ini)["SHIP_INFO"]["SelectColor"] + cEnd;
+
+    shipCount = 0;
     allocatingMemory();
 }
 Map::Map() {}
@@ -47,6 +57,19 @@ void Map::allocatingMemory()
             visualMap[i][ii] = background;
         }
 }
+int Map::GetShipCount()
+{
+    return this->shipCount;
+}
+int Map::GetMapX()
+{
+    return this->x;
+}
+int Map::GetMapY()
+{
+    return this->y;
+}
+
 int Map::PlaceShip(Ship *a, const std::pair<int, int> possition, const bool vertical)
 {
     if (a->IsShipPlacedOnMap())
@@ -121,13 +144,12 @@ int Map::PlaceShip(Ship *a, const std::pair<int, int> possition, const bool vert
             visualMap[yPos][xPos + i] = a->GetHLayout(i);
         }
     }
-
+    this->shipCount++;
     for (int i = 0; i < y; i++)
         for (int ii = 0; ii < x; ii++)
             infoMap[i][ii] = tempInfoMap[i + 1][ii + 1];
 
-    a->ShipPlacedOnMap();
-
+    a->ShipPlacedOnMap(xPos, yPos, vertical);
     for (int i = 0; i < y + 2; i++)
         delete[] tempInfoMap[i];
     delete[] tempInfoMap;
@@ -136,7 +158,9 @@ int Map::PlaceShip(Ship *a, const std::pair<int, int> possition, const bool vert
 }
 void Map::PlaceRandShips(mINI::INIStructure *ini, Ship *AI)
 {
-    int c, xPos, yPos, shipCount = stoi((*ini)["SHIP_INFO"]["ShipCount"]);
+    int c, xPos, yPos;
+    int shipCount = stoi((*ini)["SHIP_INFO"]["ShipCount"]);
+
     for (int i = 1; i <= shipCount; i++)
     {
         AI->SetData(ini, i);
@@ -168,10 +192,65 @@ std::string Map::DisplayMap()
     {
         for (int ii = 0; ii < x; ++ii)
         {
+
+            if (infoMap[i][ii] > 1)
+            {
+                savedMap += userShipColor;
+            }
+            else
+            {
+                savedMap += seaColor;
+            }
             savedMap += visualMap[i][ii];
-            savedMap += " ";
+            savedMap += " \x1b[0m";
         }
         savedMap += "\n";
     }
     return savedMap;
+}
+std::string Map::DisplayMap(int posX, int posY, bool vertical, int length)
+{
+    std::string savedMap = "";
+    savedMap += "";
+    int temp = 0;
+    for (int i = 0; i < this->y; ++i)
+    {
+        for (int ii = 0; ii < this->x; ++ii)
+        {
+            if (vertical && ii == posX + temp && i == posY && temp != length)
+            {
+                savedMap += selectColor;
+                temp++;
+            }
+            else if (i == posY + temp && ii == posX && temp != length)
+            {
+                savedMap += selectColor;
+                temp++;
+            }
+            else if (infoMap[i][ii] > 1)
+            {
+                savedMap += userShipColor;
+            }
+            else
+            {
+                savedMap += seaColor;
+            }
+            savedMap += visualMap[i][ii];
+            savedMap += " \x1b[0m";
+        }
+        savedMap += "\n";
+    }
+    return savedMap;
+}
+void Map::updateMap(int **area)
+{
+    for (int i = 0; i < this->y; ++i)
+    {
+        for (int ii = 0; ii < this->x; ++ii)
+        {
+            if (area[i][ii] == 1)
+                hitMap[i][ii] = true;
+        }
+    }
+    return;
 }

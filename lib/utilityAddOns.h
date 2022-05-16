@@ -5,6 +5,7 @@
 #include "ship.h"
 #include "enemy.h"
 #include "ini.h"
+#include "projectile.h"
 #include <string>
 
 bool toBoolean(const std::string str);

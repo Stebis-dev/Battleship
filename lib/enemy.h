@@ -17,6 +17,7 @@ public:
     void operator=(mINI::INIStructure *ini); // overloaded operator bc it is in requirements
     void PlaceRandShips(mINI::INIStructure *ini, Ship *AI);
     std::string DisplayMap();
+    std::string DisplayMap(int posX, int posY, int **affectedArea);
 };
 
 #endif
