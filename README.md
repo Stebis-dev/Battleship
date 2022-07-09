@@ -1,15 +1,23 @@
-**BattleShip v.2**
+# **BattleShip v.2**
 
-v.1 was created using struct and windows.h for colorfull efects (and is very very glitchy)
+*v.1 was created using struct and windows.h for colorfull efects*
 
-v.2 is being developed using OOP
+*v.2 is a v.1 remake using OOP, cmake and using [ANSI](https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797) Standard escape codes*
 
-Color text method:
+## Start screen
 
-    ANSI
+![Alt Text](docs\Start_screen.gif)
 
-```
-	cout<<"\x1b[1;31mHello";
-```
+## Gameplay features
 
-* https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
+* Place your ships with arrow keys
+* Rotate your ships for better position using `R` key
+* Use `ESC `key if you want to place ships random
+
+![Place ships](docs\Ship_placing.gif)
+
+## Placing shots
+
+* Place your shots with arrow keys
+
+![shots](docs\Shooting.gif)
