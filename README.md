@@ -12,12 +12,12 @@
 
 * Place your ships with arrow keys
 * Rotate your ships for better position using `R` key
-* Use `ESC `key if you want to place ships random
+* Use `ESC` key if you want to place ships random
 
-![Place ships](docs\Ship_placing.gif)
+![Alt Text](docs\Ship_placing.gif)
 
 ## Placing shots
 
 * Place your shots with arrow keys
 
-![shots](docs\Shooting.gif)
+![Alt Text](docs\Shooting.gif)
