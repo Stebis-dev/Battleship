@@ -1,3 +1,5 @@
+# use -s for silent mode 
 default:
-	g++ -o main.exe main.cpp lib/ship.cpp lib/map.cpp lib/enemy.cpp lib/projectile.cpp lib/utilityAddOns.cpp
-	./main
+	cmake --build ./build
+run:
+	./build/BattleSHip 
