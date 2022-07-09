@@ -6,7 +6,7 @@
 
 ## Start screen
 
-![Alt Text](docs\Start_screen.gif)
+![Alt Text](docs/Start_screen.gif)
 
 ## Gameplay features
 
@@ -14,10 +14,10 @@
 * Rotate your ships for better position using `R` key
 * Use `ESC` key if you want to place ships random
 
-![Alt Text](docs\Ship_placing.gif)
+![Alt Text](docs/Ship_placing.gif)
 
 ## Placing shots
 
 * Place your shots with arrow keys
 
-![Alt Text](docs\Shooting.gif)
+![Alt Text](docs/Shooting.gif)
